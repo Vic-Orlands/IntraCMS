@@ -1,5 +1,6 @@
-import { getAuth } from 'firebase/auth';
-import { initializeApp, getApps } from 'firebase/app';
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 // Load .env variables
 const firebaseConfig = {
@@ -11,7 +12,8 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const firebaseApp =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-export const firebaseAuth = getAuth(firebaseApp);
+export { app, auth, db };

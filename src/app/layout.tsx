@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import "./globals.css";
 
 import Header from "@/components/header";
-// import Footer from "@/components/footer";
+import { AuthProvider } from "@/hooks/useAuth";
 import { SESSION_COOKIE_NAME } from "@/constants";
 
 const geistSans = localFont({
@@ -35,9 +35,11 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header session={session} />
-        {children}
-        {/* <Footer /> */}
+        <AuthProvider initSession={session}>
+          <Header />
+          {children}
+          {/* <Footer /> */}
+        </AuthProvider>
       </body>
     </html>
   );

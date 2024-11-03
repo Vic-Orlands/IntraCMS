@@ -1,11 +1,12 @@
 "use client";
 
-import { useUserSession } from "@/hooks/use-user-session";
+import { useAuth } from "@/hooks/useAuth";
 import { signInWithGoogle, signOutWithGoogle } from "@/libs/firebase/auth";
-import { createSession, removeSession } from "@/actions/auth-actions";
+import { createSession, removeSession } from "@/actions/authActions";
+import Link from "next/link";
 
-const Header = ({ session }: { session: string | null }) => {
-  const userSessionId = useUserSession(session);
+const Header = () => {
+  const { uid, toggleSidebar, handleToggleSideBar } = useAuth();
 
   const handleSignIn = async () => {
     const userUid = await signInWithGoogle();
@@ -20,33 +21,38 @@ const Header = ({ session }: { session: string | null }) => {
   };
 
   return (
-    <header className="flex justify-between items-center p-4 bg-gray-900 text-white">
-      <h1 className="text-xl font-bold">Intra CMS</h1>
-      <div>
-        {!userSessionId ? (
-          <button
+    <header className="flex justify-between items-center py-4 px-10 bg-gray-900 text-white">
+      <Link href={"/"}>
+        <h1 className="text-2xl font-bold">Intra CMS</h1>
+      </Link>
+
+      <ul className="flex items-center cursor-pointer">
+        {!uid ? (
+          <li
             onClick={handleSignIn}
             className="px-4 py-2 bg-green-600 rounded-md"
           >
             Sign In
-          </button>
+          </li>
         ) : (
           <>
-            <button className="px-4 py-2 bg-blue-600 rounded-md">
-              New Page
-            </button>
-            <button className="px-4 py-2 bg-green-600 rounded-md mx-4">
-              Add Frame
-            </button>
-            <button
+            <Link href={"/admin"}>
+              <li className="hover:text-gray-300">
+                New Page
+              </li>
+            </Link>
+            <li onClick={handleToggleSideBar} className="px-8 hover:text-gray-300">
+              {toggleSidebar ? "Close Frame" : "Add Frame"}
+            </li>
+            <li
               onClick={handleSignOut}
               className="px-4 py-2 bg-green-600 rounded-md"
             >
               Sign out
-            </button>
+            </li>
           </>
         )}
-      </div>
+      </ul>
     </header>
   );
 };
