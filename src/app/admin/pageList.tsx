@@ -13,7 +13,6 @@ export type Blog = {
 
 const PageList: React.FC<Blog> = (props) => {
   const { id, title, coverImage, coverDescription, createdAt } = props
-
   const link = title.toLowerCase().replace(/ /g, "-");
 
   return (

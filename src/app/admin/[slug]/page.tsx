@@ -38,7 +38,7 @@ const BlogDetail = () => {
     }, [stripId]);
 
     if (!blogData) {
-        return <p>Loading...</p>;
+        return <p className="p-14 font-semibold text-xl">Loading...</p>;
     }
 
     const { title, coverImage, createdAt, blogContent } = blogData;
